@@ -3,14 +3,15 @@ from torch.utils.data import Dataset
 import h5py
 
 class H5Dataset(Dataset):
-    def __init__(self, filename):
+    def __init__(self, filename, name=None):
         self.f = h5py.File(filename, 'r')
+        self.name = name
         print('The following keys are availible: ', list(self.f.keys()))
     def load_data(self,inputs,targets):
         self.X = self.f[inputs]
-        print('Loaded inputs tensor ', self.X.shape)
+        print(f'Loaded {self.name} inputs tensor {self.X.shape}')
         self.y = self.f[targets]
-        print('Loaded targets tensor ', self.y.shape)
+        print(f'Loaded {self.name} targets tensor {self.y.shape}')
     def __len__(self):
         return len(self.y)
     def __getitem__(self,idx):
